@@ -5,13 +5,14 @@ RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 WORKDIR /home/node/app
 
 COPY backend/package*.json ./
+COPY .env ./
 
 USER node
 
 RUN npm install
 
-COPY --chown=node:node backend .
+ADD --chown=node:node backend ./
 
-EXPOSE 8080
+EXPOSE 3000
 
-CMD [ "node", "app.js" ]
+CMD [ "/home/node/app/node_modules/.bin/ts-node-dev", "index.ts"]
